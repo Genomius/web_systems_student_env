@@ -34,9 +34,11 @@ class Routing {
         if(!isset(self::$token)){
             throw new Exception("");
         }
+
         foreach (self::$token as $ruleName => $value) {
             $pattern = "|".self::requireParameter($value['pattern'], $value['ArticleID'])."|";
             if(preg_match_all($pattern, $url, $out)) {
+
                 self::callback($value['matches'], $out);
                 return;
             }

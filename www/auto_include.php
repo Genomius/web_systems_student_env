@@ -12,7 +12,7 @@ class Auto_include{
     }
     public function core()
     {
-        $this->loadForeach("core/*.php");
+        $this->loadForeach("Core/*.php");
     }
     public function application()
     {
