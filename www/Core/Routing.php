@@ -1,72 +1,54 @@
 <?php
-/**
-$_FURLTEMPLATES['article']  =   array(
-'i' => array(
-'pattern' => '@CMS/Articles/([\d]+)/?@i',
-'matches' => array( 'Application' => "CMS",
-'Module' => 'Articles',
-'Sector' => 'showArticle',
-'ArticleID' => '$1' ),
-),
-'o' => array(
-'@Application=CMS(&|&amp;)Module=Articles(&|&amp;)Sector=showArticle(&|&amp;)ArticleID=([\d]+)@' => 'CMS/Articles/$4'
-)
-);
- * ${OBJECT}->${REQUEST METHOD}(${PATTERM}, ${CALLBACK});
- *
- */
 class Routing {
-    private static $token =array();
-    private static $_instances = null;
+    private static $token = array();
+    private static $_instance = null;
     private $process = array();
     function __construct(){}
-    public static function Instance() {
+    public static function instance() {
         if (is_null(self::$_instance)) {
             self::$_instance = new Router();
         }
         return self::$_instance;
     }
-    public static function Add($Rule){
-        array_push(self::$token,$Rule);
+    public static function add($rule){
+        array_push(self::$token, $rule);
     }
     public static function debug(){
         var_dump(self::$token);
     }
-    public static function RequireParemetr($token,$paremetrs)
+    public static function requireParameter($token, $parameters)
     {
-        if (isset($paremetrs)) {
-            $Temp = str_replace('/', '\/', $token);
-            preg_match_all("/(?<=:)[a-zA-Z0-9]++/", $Temp, $ArrayParemetrs);
-            foreach ($ArrayParemetrs[0] as $value) {
-                if (array_key_exists($value, $paremetrs)) {
-                    $token = str_replace(":$value", "($paremetrs[$value])", $token);
+        if (isset($parameters)) {
+            $temp = str_replace('/', '\/', $token);
+            preg_match_all("/(?<=:)[a-zA-Z0-9]++/", $temp, $arrayParameters);
+            foreach ($arrayParameters[0] as $value) {
+                if (array_key_exists($value, $parameters)) {
+                    $token = str_replace(":$value", "($parameters[$value])", $token);
                 }
             }
         }
         return $token;
     }
-    public static function Analysis($url)
+    public static function analysis($url)
     {
-        var_dump(self::$token);
         if(!isset(self::$token)){
-            throw new Exception("Данный сайт находится в разработке");
+            throw new Exception("");
         }
-        foreach (self::$token as $RuleName => $value) {
-            $pattern = "|".self::RequireParemetr($value['pattern'],$value['ArticleID'])."|";
+        foreach (self::$token as $ruleName => $value) {
+            $pattern = "|".self::requireParameter($value['pattern'], $value['ArticleID'])."|";
             if(preg_match_all($pattern, $url, $out)) {
-                self::Callback($value['matches'],$out);
+                self::callback($value['matches'], $out);
                 return;
             }
         }
         self::NotFound();
     }
-    public static function Callback($callback,$arguments){
+    public static function callback($callback, $arguments){
         $temp = new $callback['Module']();
-        call_user_func_array(array($temp, $callback['Sector']),$arguments);
+        call_user_func_array(array($temp, $callback['Sector']), $arguments);
     }
-    public static function NotFound(){
-         echo("хуй");
-        //  $Notfound= array('Module'=> 'NotFoundController','Sector'=>'Index');
-        // self::Callback($Notfound);
+    public static function notFound(){
+         echo("<h1>404</h1>");
     }
 }
+?>

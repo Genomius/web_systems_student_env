@@ -1,21 +1,21 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Web
- * Date: 03.05.2015
- * Time: 17:38
- */
-Routing::Add(array(
-    'pattern' => '/home/:id/:goots',
+Routing::add(array(
+    'pattern' => '/home/:slug_1/:slug_2',
     'matches' => array(
         'Module' => 'Home',
-        'Sector' => 'index'),
+        'Sector' => 'index'
+    ),
     'ArticleID' => array(
-        'id'=> '\d+','goots'=>'\S+' )
+        'slug_1' => '\d+',
+        'slug_2' => '\s+',
+    )
 ));
 
-Routing::Add(array(
+Routing::add(array(
     'pattern' => '/home/',
     'matches' => array(
         'Module' => 'Home',
-        'Sector' => 'index1')));
+        'Sector' => 'index1'
+    )
+));
+?>

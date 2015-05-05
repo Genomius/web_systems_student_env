@@ -1,15 +1,10 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Web
- * Date: 03.05.2015
- * Time: 17:47
- */
 class Home{
     public function index(){
-        echo("aaaaa");
+        echo("<h1>Страница 1</h1>");
     }
     public function index1(){
-        echo("bbbbb");
+        echo("<h1>Страница 2</h1>");
     }
 }
+?>

@@ -1,9 +1,9 @@
 ﻿<?php
+include_once "auto_include.php";
 
-include_once "autoinclude.php";
-
-$auto = new Avto_include();
-$auto->Include_all();
+$auto = new Auto_include();
+$auto->include_all();
 
 $routing = new Routing();
-$routing->Analysis($_SERVER['REQUEST_URI']);
+$routing->analysis($_SERVER['REQUEST_URI']);
+?>
